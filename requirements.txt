@@ -18,3 +18,4 @@ vaderSentiment
 readability
 textstat
 pyLDAvis
+scipy
