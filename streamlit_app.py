@@ -306,7 +306,7 @@ if st.button("Analyze Document"):
                     text += reader.getPage(page).extract_text()
             elif uploaded_file.type == "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
                 doc = docx.Document(uploaded_file)
-                text = "\n.join([para.text for para in doc.paragraphs])
+                text = "\n".join([para.text for para in doc.paragraphs])
             else:
                 text = uploaded_file.read().decode("utf-8")
 
