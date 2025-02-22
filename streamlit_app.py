@@ -19,9 +19,8 @@ from sklearn.manifold import TSNE
 from collections import Counter
 from textblob import TextBlob
 import spacy
-from gensim.summarization import summarize
-from gensim.models import Word2Vec
-from gensim.summarization import keywords
+from transformers import pipeline
+import yake
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 from readability import Readability
 from textstat import textstat
@@ -101,11 +100,14 @@ def analyze_document(text):
     st.write("Named Entity Recognition:")
     st.write(entities)
 
-    summary = summarize(text, word_count=100)
+    summarizer = pipeline("summarization")
+    summary = summarizer(text, max_length=100, min_length=30, do_sample=False)[0]['summary_text']
     st.write("Text Summarization:")
     st.write(summary)
 
-    extracted_keywords = keywords(text, words=10, lemmatize=True)
+    kw_extractor = yake.KeywordExtractor()
+    keywords = kw_extractor.extract_keywords(text)
+    extracted_keywords = [kw[0] for kw in keywords]
     st.write("Keyword Extraction:")
     st.write(extracted_keywords)
 
@@ -304,7 +306,7 @@ if st.button("Analyze Document"):
                     text += reader.getPage(page).extract_text()
             elif uploaded_file.type == "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
                 doc = docx.Document(uploaded_file)
-                text = "\n".join([para.text for para in doc.paragraphs])
+                text = "\n.join([para.text for para in doc.paragraphs])
             else:
                 text = uploaded_file.read().decode("utf-8")
 
