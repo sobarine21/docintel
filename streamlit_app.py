@@ -27,9 +27,6 @@ from readability import Readability
 from textstat import textstat
 from nltk.util import ngrams
 from sklearn.decomposition import LatentDirichletAllocation as LDA
-from sklearn.metrics import cohen_kappa_score
-from sklearn.metrics import jaccard_score
-from sklearn.metrics import precision_score, recall_score, f1_score
 from difflib import SequenceMatcher
 import pyLDAvis.sklearn
 import pyLDAvis
@@ -213,9 +210,6 @@ def analyze_document(text):
     st.write("Adverb Frequency:")
     st.write(adv_freq)
 
-    st.write("Synonyms and Antonyms:")
-    st.write("Synonyms and antonyms results would be displayed here.")
-
     bigram_measures = nltk.collocations.BigramAssocMeasures()
     finder = nltk.collocations.BigramCollocationFinder.from_words(filtered_words)
     finder.apply_freq_filter(3)
@@ -223,20 +217,11 @@ def analyze_document(text):
     st.write("Collocations:")
     st.write(collocations)
 
-    st.write("Concordance:")
-    st.write("Concordance results would be displayed here.")
-
     co_occurrence_matrix = (X.T * X)
     co_occurrence_matrix.setdiag(0)
     df_co_occurrence = pd.DataFrame(co_occurrence_matrix.toarray(), index=vectorizer.get_feature_names_out(), columns=vectorizer.get_feature_names_out())
     st.write("Co-occurrence Matrix:")
     st.write(df_co_occurrence)
-
-    st.write("Dependency Parsing:")
-    st.write("Dependency parsing results would be displayed here.")
-
-    st.write("Text Generation:")
-    st.write("Text generation results would be displayed here.")
 
     entity_freq = Counter([entity.label_ for entity in doc.ents])
     st.write("Named Entity Frequency:")
@@ -303,80 +288,11 @@ def analyze_document(text):
     st.write("LDA Visualization:")
     st.components.v1.html(html_data, height=800)
 
-    st.write("Topic Coherence:")
-    st.write("Topic coherence results would be displayed here.")
-
     def similar(a, b):
         return SequenceMatcher(None, a, b).ratio()
     doc_similarity = similar(text, text)
     st.write("Document Similarity (Self-comparison):")
     st.write(doc_similarity)
-
-    st.write("Jaccard Similarity:")
-    st.write("Jaccard similarity results would be displayed here.")
-
-    st.write("Precision, Recall, F1 Score:")
-    st.write("Precision, Recall, F1 Score results would be displayed here.")
-
-    st.write("Cohen's Kappa Score:")
-    st.write("Cohen's Kappa Score results would be displayed here.")
-
-    st.write("Cosine Similarity:")
-    st.write("Cosine similarity results would be displayed here.")
-
-    st.write("Euclidean Distance:")
-    st.write("Euclidean distance results would be displayed here.")
-
-    st.write("Manhattan Distance:")
-    st.write("Manhattan distance results would be displayed here.")
-
-    st.write("Pearson Correlation:")
-    st.write("Pearson correlation results would be displayed here.")
-
-    st.write("Spearman Correlation:")
-    st.write("Spearman correlation results would be displayed here.")
-
-    st.write("Kendall Tau Correlation:")
-    st.write("Kendall Tau correlation results would be displayed here.")
-
-    st.write("Mutual Information:")
-    st.write("Mutual information results would be displayed here.")
-
-    st.write("Chi-Square Test:")
-    st.write("Chi-Square test results would be displayed here.")
-
-    st.write("ANOVA:")
-    st.write("ANOVA results would be displayed here.")
-
-    st.write("Logistic Regression:")
-    st.write("Logistic regression results would be displayed here.")
-
-    st.write("SVM Classification:")
-    st.write("SVM classification results would be displayed here.")
-
-    st.write("Decision Tree Classification:")
-    st.write("Decision tree classification results would be displayed here.")
-
-    st.write("Random Forest Classification:")
-    st.write("Random forest classification results would be displayed here.")
-
-    st.write("Gradient Boosting Classification:")
-    st.write("Gradient boosting classification results would be displayed here.")
-
-    st.write("K-Nearest Neighbors Classification:")
-    st.write("K-Nearest Neighbors classification results would be displayed here.")
-
-    st.write("Naive Bayes Classification:")
-    st.write("Naive Bayes classification results would be displayed here.")
-
-    st.write("LSTM for Text Classification:")
-    st.write("LSTM text classification results would be displayed here.")
-
-    st.write("BERT for Text Classification:")
-    st.write("BERT text classification results would be displayed here.")
-
-    st.write("GPT-3 for Text Generation:")
-    st.write("GPT-3 text generation results would be displayed here.")
 
 if st.button("Analyze Document"):
     if uploaded_file is not None:
